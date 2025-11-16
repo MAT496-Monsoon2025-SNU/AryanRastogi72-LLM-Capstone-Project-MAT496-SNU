@@ -35,7 +35,7 @@ The final agent will be served as an API using langgraph dev and accessed via a 
 
 ### Plan I plan to execute these steps to complete my project. As per the assignment instructions, I will commit after each step is complete.
 
-#### [DONE](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/State_%26_Graph_With_PersistantMemory.ipynb) Step 1: Define State & Graph with Persistent Memory.
+#### [DONE] [Step 1: Define State & Graph with Persistent Memory.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/State_%26_Graph_With_PersistantMemory.ipynb)
 
 Define the main TravelAgentState (TypedDict) to hold messages, destination, dates, budget, and keys for all options (e.g., flight_options, train_options, accommodation_options).
 
