@@ -1,5 +1,5 @@
 # Project Report: Multi-Agent Travel Planner
-## Title: Persistent Multi-Agent Travel Planner
+## Title: Multi-Agent Travel Planner
 
 ### Overview: 
 This project is a conversational AI agent that functions as a "team" of travel specialists. A user can chat with it through a web interface to plan a trip. The agent will remember the user's preferences (like destination, budget, and dates) across sessions using persistent memory. When asked for a plan, it will dispatch specialist agents to research flights and hotels in parallel. Finally, it will present a combined plan and pause to ask for the user's final approval before "booking" the trip.
