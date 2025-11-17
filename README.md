@@ -43,7 +43,7 @@ Use Annotated with operator.add for all the new option lists to collect parallel
 
 Compile the main StateGraph with a SqliteSaver checkpointer.
 
-#### [TODO] Step 2: Implement Core Tools.
+#### [DONE] [Step 2: Implement Core Tools.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Core%20Tools.ipynb)
 
 Create and bind Python tool functions: search_flights, search_trains, search_buses, search_hotels, and search_airbnbs.
 
