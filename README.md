@@ -49,7 +49,7 @@ Create and bind Python tool functions: search_flights, search_trains, search_bus
 
 These tools will return mock data, including a "link" key with a dummy URL (e.g., {"price": 80, "link": "https://example.com/trains"}).
 
-#### [TODO] Step 3: Create Travel Agent Sub-Graph.
+#### [DONE] [Step 3: Create Travel Agent Sub-Graph.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Sub_Graph.ipynb)
 
 Build and compile a travel_agent sub-graph.
 
