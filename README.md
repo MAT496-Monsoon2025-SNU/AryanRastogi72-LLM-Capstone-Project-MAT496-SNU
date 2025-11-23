@@ -61,7 +61,7 @@ Build and compile an accommodation_agent sub-graph.
 
 This agent will be given the tools search_hotels and search_airbnbs to find all lodging options.
 
-#### [TODO] Step 5: Implement Map-Reduce Flow.
+#### [DONE] [Step 5: Implement Map-Reduce Flow.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Map_Reduce.ipynb)
 
 In the main graph, create a "planner" node.
 
@@ -71,7 +71,7 @@ Use a conditional edge with Send to call the travel_agent and accommodation_agen
 
 Create a "present_plan" node that waits for both sub-graphs to finish (the "reduce" step).
 
-This node's job is to gather all the lists (e.g., state['flight_options'], state['hotel_options']) and format them into a single, clean message for the user, including the links for booking.
+This node's job is to gather all the lists (e.g., state['flight_options'], state['hotel_options']) and format them into a single, clean message for the user, including booking links.
 
 The main agent will present this plan and then flow to END, waiting for the user's next message (which will start a new, memory-enabled run).
 
