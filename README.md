@@ -67,21 +67,13 @@ In the main graph, create a "planner" node.
 
 Use a conditional edge with Send to call the travel_agent and accommodation_agent sub-graphs in parallel (this is the "map" step).
 
-#### [TODO] Step 6: Implement Reduce & Chat Loop.
-
-Create a "present_plan" node that waits for both sub-graphs to finish (the "reduce" step).
-
-This node's job is to gather all the lists (e.g., state['flight_options'], state['hotel_options']) and format them into a single, clean message for the user, including booking links.
-
-The main agent will present this plan and then flow to END, waiting for the user's next message (which will start a new, memory-enabled run).
-
-#### [TODO] Step 7: Deploy & Build Web Interface.
+#### [TODO] Step 6: Deploy & Build Web Interface.
 
 Deploy the final compiled graph as an API using langgraph dev.
 
 Create a simple Streamlit (or Flask) web app with a chat interface that connects to the agent's API using the langgraph_sdk.
 
-#### [TODO] Step 8: Final Test.
+#### [TODO] Step 7: Final Test.
 
 Test the full end-to-end flow through the web interface to ensure memory and breakpoints work.
 
