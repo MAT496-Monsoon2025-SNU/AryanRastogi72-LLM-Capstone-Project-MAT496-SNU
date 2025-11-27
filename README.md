@@ -1,81 +1,71 @@
-# Project Report: Multi-Agent Travel Planner
-## Title: Multi-Agent Travel Planner
+# Project Report: AI Travel Planner
 
-### Overview: 
-This project is a conversational AI agent that functions as a "team" of travel specialists. A user can chat with it through a web interface to plan a trip by providing a destination, budget, and travel dates. The agent will dispatch specialist agents to research diverse travel options (flights, trains, and buses) and various accommodation choices (hotels, Airbnbs, etc.) in parallel. It will then consolidate all these options into a single, comprehensive list—complete with links where the user can book manually. The agent uses persistent memory to remember the conversation, allowing the user to ask follow-up questions to refine the plan.
+## Title: Persistent Multi-Agent Travel Planner
 
-### Reason for picking up this project This project is designed to synthesize and demonstrate mastery of all the major topics covered in this course:
+### Overview
+This project is an advanced conversational AI agent designed to act as a "team" of travel specialists. A user interacts with the system, providing trip details such as origin, destination, budget, dates, and the number of travellers. The system orchestrates a team of specialist agents—a **Travel Agent** (for flights) and a **Hotel Agent** (for accommodation)—to research live options in parallel.
 
-#### LangGraph (State, Nodes, Graph): 
-The entire application is built as a stateful graph using StateGraph. It uses a custom TypedDict state (TravelAgentState) to manage messages, user preferences, and research results.
+Using the **Amadeus API** for flights and **Booking.com (via RapidAPI)** for hotels, the agents fetch real-time data including prices, ratings, and direct booking links. The system then consolidates these findings into a comprehensive, formatted itinerary that respects the user's budget and preferences. The entire application state is managed using **LangGraph**, featuring persistent memory to track the conversation and context across sessions.
 
-#### Tool Calling & RAG: 
-The agent uses tools (e.g., search_flights, search_trains, search_airbnbs) to perform "Retrieval-Augmented Generation" (RAG). Instead of just retrieving from a static database, it fetches live data (options and links) to answer the user's request.
+### Reason for picking up this project
+This project is designed to synthesise and demonstrate mastery of all the major advanced topics covered in the course:
 
-#### Persistent Memory (Module 2): 
-The graph is compiled with a SqliteSaver checkpointer. This gives the agent persistent, long-term memory, allowing a user to close the chat, come back later, and have the agent remember their thread_id and all previous conversation details.
+#### LangGraph (State, Nodes, Graph)
+The core architecture is built as a stateful graph using `StateGraph`, managing complex state transitions and data flow between multiple nodes using a custom `TypedDict` state (`TravelAgentState`).
 
-#### Human-in-the-Loop (Module 3): 
-The agent operates in a continuous loop with the user. It researches, presents its findings (the travel and accommodation links), and then waits for the user's next request. The user can then provide feedback (e.g., "Those flights are too expensive, find another option"), which starts a new research cycle. This uses the core concepts of breakpoints.ipynb (pausing for input) and edit-state-human-feedback.ipynb (acting on new feedback) in a natural conversational flow.
+#### Tool Calling & RAG
+The agents use custom tools (`search_flight`, `search_hotel`) to perform retrieval-augmented generation by fetching live, structured data from external APIs (Amadeus & Booking.com) rather than relying on static knowledge or mock data.
 
-#### Multi-Agent (Module 4): 
-This is the core of the capstone.
+#### Persistent Memory (Module 2)
+The graph utilises a `SqliteSaver` checkpointer to provide persistent, long-term memory. This allows the agent to maintain context across multiple interactions and even resume sessions after interruptions.
 
-#### Sub-Graphs (Module 4): 
-A travel_agent (handling flights, trains, and buses) and an accommodation_agent (handling hotels and Airbnbs) are built as their own compiled graphs.
+#### Human-in-the-Loop (Module 3)
+The agent operates in a continuous conversational loop. It presents findings and then waits for the user's next message (state update). This allows the user to provide feedback (e.g., "Too expensive, find cheaper hotels"), effectively keeping the human in the loop to refine the search results.
 
-#### Parallelization (Module 4): 
-The main graph's "planner" node runs these two specialist sub-graphs at the same time, as their tasks are independent.
+#### Multi-Agent (Module 4)
+This is the core of the capstone. The project implements a multi-agent system:
+* **Sub-Graphs:** Specialised agents (Travel & Hotel) are built as their own independent, compiled sub-graphs.
+* **Parallelisation:** The main graph orchestrator executes these sub-graphs simultaneously to reduce latency.
+* **Map-Reduce:** The system "maps" the research task to the specialists and "reduces" their independent findings into a single, cohesive final plan.
 
-#### Map-Reduce (Module 4):
-The main graph "maps" the research tasks to these specialist agents and then "reduces" their separate findings into a single, unified plan presented to the user.
+#### Deployment (Module 1)
+The final agent is designed to be served as an API using `langgraph dev` and accessed via a simple web interface (Streamlit).
 
-#### Deployment (Module 1): 
-The final agent will be served as an API using langgraph dev and accessed via a simple web interface, as shown in the final module.
+### Plan
+I plan to execute these steps to complete my project. As per the assignment instructions, I will commit after each step is complete.
 
-### Plan I plan to execute these steps to complete my project. As per the assignment instructions, I will commit after each step is complete.
+#### [DONE] Step 1: Define State & Graph with Persistent Memory.
+* Defined the `TravelAgentState` (`TypedDict`) to hold user inputs (`origin`, `destination`, `dates`, `budget`) and results lists.
+* Implemented custom reducers (`replace_value` and `operator.add`) to safely manage state updates from parallel branches.
+* Initialised `SqliteSaver` for persistent conversational memory.
 
-#### [DONE] [Step 1: Define State & Graph with Persistent Memory.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/State_%26_Graph_With_PersistantMemory.ipynb)
+#### [DONE] Step 2: Implement Core Tools (API Integration).
+* Built `search_flight`: Integrated with **Amadeus API** to fetch real flight offers. Added logic to generate dynamic **Skyscanner booking links**.
+* Built `search_hotel`: Integrated with **Booking.com (via RapidAPI)** to fetch real hotel data, including prices, ratings, and deep links.
+* Implemented helper functions like `get_iata_code` to ensure accurate API queries.
 
-Define the main TravelAgentState (TypedDict) to hold messages, destination, dates, budget, and keys for all options (e.g., flight_options, train_options, accommodation_options).
+#### [DONE] Step 3: Create "Travel Agent" Sub-Graph.
+* Designed a dedicated sub-graph for flight research.
+* Configured the agent to search for both **outbound** and **return** flights.
+* Implemented a parser node to clean raw API data before passing it back to the main state.
 
-Use Annotated with operator.add for all the new option lists to collect parallel results.
+#### [DONE] Step 4: Create "Accommodation Agent" Sub-Graph.
+* Designed a dedicated sub-graph for hotel research.
+* Configured the agent to search for hotels based on check-in/out dates and budget.
+* Implemented a parser node to extract key details (price, rating, stars) from the API response.
 
-Compile the main StateGraph with a SqliteSaver checkpointer.
-
-#### [DONE] [Step 2: Implement Core Tools.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Core_Tools.ipynb)
-
-Create and bind Python tool functions: search_flights, search_trains, search_buses, search_hotels, and search_airbnbs.
-
-These tools will return mock data, including a "link" key with a dummy URL (e.g., {"price": 80, "link": "https://example.com/trains"}).
-
-#### [DONE] [Step 3: Create Travel Agent Sub-Graph.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Travel_Sub_Graph.ipynb)
-
-Build and compile a travel_agent sub-graph.
-
-This agent will be given the tools search_flights, search_trains, and search_buses and will be responsible for finding all travel options.
-
-#### [DONE] [Step 4: Create Accommodation Agent Sub-Graph.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Accomadation_Sub_Graph.ipynb)
-
-Build and compile an accommodation_agent sub-graph.
-
-This agent will be given the tools search_hotels and search_airbnbs to find all lodging options.
-
-#### [DONE] [Step 5: Implement Map-Reduce Flow.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Map_Reduce.ipynb)
-
-In the main graph, create a "planner" node.
-
-Use a conditional edge with Send to call the travel_agent and accommodation_agent sub-graphs in parallel (this is the "map" step).
+#### [DONE] Step 5: Implement Map-Reduce Orchestrator.
+* Built the **Main Graph** to coordinate the workflow.
+* **Intake Node:** Clears previous results to ensure fresh searches.
+* **Routing:** Implemented logic to "Map" the task to both specialist sub-graphs to run in **parallel**.
+* **Reduce:** Implemented a `present_plan_node` that waits for both agents to finish, aggregates their results, calculates total costs, and formats a final Markdown itinerary.
 
 #### [TODO] Step 6: Deploy & Build Web Interface.
-
-Deploy the final compiled graph as an API using langgraph dev.
-
-Create a simple Streamlit (or Flask) web app with a chat interface that connects to the agent's API using the langgraph_sdk.
+* Deploy the final compiled graph as an API using `langgraph dev`.
+* Create a simple **Streamlit** web app with a chat interface that connects to the agent's API using the `langgraph_sdk`.
 
 #### [TODO] Step 7: Final Test.
+* Test the full end-to-end flow through the web interface to ensure memory, tool calling, and parallel execution work as expected.
 
-Test the full end-to-end flow through the web interface to ensure memory and breakpoints work.
-
-### Conclusion 
-
+### Conclusion
+I have planned to achieve a fully functional, multi-agent application that directly revises all modules from the course. This plan is ambitious but provides a clear path to demonstrating a practical understanding of LangGraph, from basic state management to complex, parallel multi-agent workflows with persistent memory and human oversight. Successful completion of this project will result in a portfolio-ready application that truly showcases the power of agentic AI development.
