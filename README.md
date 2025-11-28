@@ -36,31 +36,31 @@ The final agent is designed to be served as an API using `langgraph dev` and acc
 ### Plan
 I plan to execute these steps to complete my project. As per the assignment instructions, I will commit after each step is complete.
 
-#### [DONE] Step 1: Define State & Graph with Persistent Memory.
+#### [DONE] [Step 1: Define State & Graph with Persistent Memory.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/State_%26_Graph_With_PersistantMemory.ipynb)
 * Defined the `TravelAgentState` (`TypedDict`) to hold user inputs (`origin`, `destination`, `dates`, `budget`) and results lists.
 * Implemented custom reducers (`replace_value` and `operator.add`) to safely manage state updates from parallel branches.
 * Initialised `SqliteSaver` for persistent conversational memory.
 * **Note:** At this stage, the graph was tested using **mock data** to ensure state persistence worked before integrating real APIs.
 
-#### [DONE] Step 2: Implement Core Tools (Mock Data).
+#### [DONE] [Step 2: Implement Core Tools (Mock Data).](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Core_Tools.ipynb)
 * Created placeholder tools (`search_flight`, `search_hotel`) returning **hardcoded mock data**.
 * Real APIs were **not yet implemented**. This allowed me to verify the tool-calling logic and agent loop in isolation without hitting API limits or connectivity issues.
 
-#### [DONE] Step 3: Create "Travel Agent" Sub-Graph (Mock Data).
+#### [DONE] [Step 3: Create "Travel Agent" Sub-Graph (Mock Data).](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Travel_Sub_Graph.ipynb)
 * Built the dedicated `travel_agent` sub-graph specifically for handling flight queries.
 * Implemented a parser node to clean the tool outputs.
 * **Note:** This agent was initially built and tested using the **mock flight tools** to verify the sub-graph structure and data parsing logic.
 
-#### [DONE] Step 4: Create "Accommodation Agent" Sub-Graph (Mock Data).
+#### [DONE] [Step 4: Create "Accommodation Agent" Sub-Graph (Mock Data).](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Accomadation_Sub_Graph.ipynb)
 * Built the dedicated `accommodation_agent` sub-graph for handling hotel queries.
 * **Note:** Similar to the travel agent, this was first implemented using **mock hotel tools** to ensure the parallel execution logic would work correctly without external dependencies.
 
-#### [DONE] Step 5: Implement Map-Reduce Orchestrator (Mock Data).
+#### [DONE] Step 5: [Implement Map-Reduce Orchestrator (Mock Data).](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/Map_Reduce.ipynb)
 * Built the **Main Graph** to coordinate the workflow, including Intake, Planning, and Routing.
 * Implemented the "Map-Reduce" logic to dispatch tasks to both sub-graphs in parallel and aggregate the results.
 * **Verified Logic:** Successfully tested the entire multi-agent flow using **hardcoded values** to ensure the parallel execution and state aggregation worked correctly before moving to production data.
 
-#### [DONE] Step 6: Integrate Real APIs (Amadeus & Booking.com).
+#### [DONE] [Step 6: Integrate Real APIs (Amadeus & Booking.com).](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/API_Implementations.ipynb)
 * **Upgraded Tools:** Replaced the mock/hardcoded tools from Steps 2-5 with live API integrations.
 * Integrated **Amadeus API** for flight search, including dynamic Skyscanner link generation.
 * Integrated **Booking.com (via RapidAPI)** for hotel search to get real-time pricing and details.
