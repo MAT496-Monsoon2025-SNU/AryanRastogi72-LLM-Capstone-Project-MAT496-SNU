@@ -1,9 +1,9 @@
-# Project Report: AI Travel Planner
+# Project Report: Travel Planner
 
-## Title: Persistent Multi-Agent Travel Planner
+## Title: AI Travel Planner
 
 ### Overview
-This project is an advanced conversational AI agent designed to act as a "team" of travel specialists. A user interacts with the system (initially via CLI, later via a Web UI), providing trip details such as origin, destination, budget, dates, and the number of travellers. The system orchestrates a team of specialist agents—a **Travel Agent** (for flights) and a **Hotel Agent** (for accommodation)—to research live options in parallel.
+This project is an advanced conversational AI agent designed to act as a "team" of travel specialists. A user interacts with the system, providing trip details such as origin, destination, budget, dates, and the number of travellers. The system orchestrates a team of specialist agents—a **Travel Agent** (for flights) and a **Hotel Agent** (for accommodation)—to research live options in parallel.
 
 Using the **Amadeus API** for flights and **Booking.com (via RapidAPI)** for hotels, the agents fetch real-time data including prices, ratings, and direct booking links. The system then consolidates these findings into a comprehensive, formatted itinerary that respects the user's budget and preferences. The entire application state is managed using **LangGraph**, featuring persistent memory to track the conversation and context.
 
@@ -40,34 +40,38 @@ I plan to execute these steps to complete my project. As per the assignment inst
 * Defined the `TravelAgentState` (`TypedDict`) to hold user inputs (`origin`, `destination`, `dates`, `budget`) and results lists.
 * Implemented custom reducers (`replace_value` and `operator.add`) to safely manage state updates from parallel branches.
 * Initialised `SqliteSaver` for persistent conversational memory.
+* **Note:** At this stage, the graph was tested using **mock data** to ensure state persistence worked before integrating real APIs.
 
-#### [DONE] Step 2: Implement Core Tools (API Integration).
-* Built `search_flight`: Integrated with **Amadeus API** to fetch real flight offers. Added logic to generate dynamic **Skyscanner booking links** for better usability.
-* Built `search_hotel`: Integrated with **Booking.com (via RapidAPI)** to fetch real hotel data, including prices, ratings, and deep links.
-* Implemented helper functions like `get_iata_code` and `get_destination_id` to ensure accurate API queries.
+#### [DONE] Step 2: Implement Core Tools (Mock Data).
+* Created placeholder tools (`search_flight`, `search_hotel`) returning **hardcoded mock data**.
+* Real APIs were **not yet implemented**. This allowed me to verify the tool-calling logic and agent loop in isolation without hitting API limits or connectivity issues.
 
-#### [DONE] Step 3: Create "Travel Agent" Sub-Graph.
-* Designed a dedicated sub-graph for flight research.
-* Configured the agent to search for both **outbound** and **return** flights.
-* Implemented a parser node to clean raw API data before passing it back to the main state.
+#### [DONE] Step 3: Create "Travel Agent" Sub-Graph (Mock Data).
+* Built the dedicated `travel_agent` sub-graph specifically for handling flight queries.
+* Implemented a parser node to clean the tool outputs.
+* **Note:** This agent was initially built and tested using the **mock flight tools** to verify the sub-graph structure and data parsing logic.
 
-#### [DONE] Step 4: Create "Accommodation Agent" Sub-Graph.
-* Designed a dedicated sub-graph for hotel research.
-* Configured the agent to search for hotels based on check-in/out dates and budget.
-* Implemented a parser node to extract key details (price, rating, stars) from the API response.
+#### [DONE] Step 4: Create "Accommodation Agent" Sub-Graph (Mock Data).
+* Built the dedicated `accommodation_agent` sub-graph for handling hotel queries.
+* **Note:** Similar to the travel agent, this was first implemented using **mock hotel tools** to ensure the parallel execution logic would work correctly without external dependencies.
 
-#### [DONE] Step 5: Implement Map-Reduce Orchestrator.
-* Built the **Main Graph** to coordinate the workflow.
-* **Intake Node:** Clears previous results to ensure fresh searches.
-* **Routing:** Implemented logic to "Map" the task to both specialist sub-graphs to run in **parallel**.
-* **Reduce:** Implemented a `present_plan_node` that waits for both agents to finish, aggregates their results, calculates total costs, and formats a final Markdown itinerary.
+#### [DONE] Step 5: Implement Map-Reduce Orchestrator (Mock Data).
+* Built the **Main Graph** to coordinate the workflow, including Intake, Planning, and Routing.
+* Implemented the "Map-Reduce" logic to dispatch tasks to both sub-graphs in parallel and aggregate the results.
+* **Verified Logic:** Successfully tested the entire multi-agent flow using **hardcoded values** to ensure the parallel execution and state aggregation worked correctly before moving to production data.
 
-#### [TODO] Step 6: Deploy & Build Web Interface.
+#### [DONE] Step 6: Integrate Real APIs (Amadeus & Booking.com).
+* **Upgraded Tools:** Replaced the mock/hardcoded tools from Steps 2-5 with live API integrations.
+* Integrated **Amadeus API** for flight search, including dynamic Skyscanner link generation.
+* Integrated **Booking.com (via RapidAPI)** for hotel search to get real-time pricing and details.
+* Validated that the agents now fetch and process real-world data instead of the initial mock data.
+
+#### [TODO] Step 7: Deploy & Build Web Interface.
 * Deploy the final compiled graph as an API using `langgraph dev`.
 * Create a simple **Streamlit** web app with a chat interface that connects to the agent's API using the `langgraph_sdk`.
 
-#### [TODO] Step 7: Final Test.
-* Test the full end-to-end flow through the web interface to ensure memory, tool calling, and parallel execution work as expected.
+#### [TODO] Step 8: Final Test.
+* Test the full end-to-end flow through the web interface to ensure memory, tool calling, and parallel execution work as expected with the live APIs.
 
 ### Conclusion
 I have planned to achieve a fully functional, multi-agent application that directly revises all modules from the course. This plan is ambitious but provides a clear path to demonstrating a practical understanding of LangGraph, from basic state management to complex, parallel multi-agent workflows with persistent memory and human oversight. Successful completion of this project will result in a portfolio-ready application that truly showcases the power of agentic AI development.
