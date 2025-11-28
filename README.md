@@ -3,18 +3,20 @@
 ## Title: Persistent Multi-Agent Travel Planner
 
 ### Overview
-This project is an advanced conversational AI agent designed to act as a "team" of travel specialists. A user interacts with the system, providing trip details such as origin, destination, budget, dates, and the number of travellers. The system orchestrates a team of specialist agents—a **Travel Agent** (for flights) and a **Hotel Agent** (for accommodation)—to research live options in parallel.
+This project is an advanced conversational AI agent designed to act as a "team" of travel specialists. A user interacts with the system (initially via CLI, later via a Web UI), providing trip details such as origin, destination, budget, dates, and the number of travellers. The system orchestrates a team of specialist agents—a **Travel Agent** (for flights) and a **Hotel Agent** (for accommodation)—to research live options in parallel.
 
-Using the **Amadeus API** for flights and **Booking.com (via RapidAPI)** for hotels, the agents fetch real-time data including prices, ratings, and direct booking links. The system then consolidates these findings into a comprehensive, formatted itinerary that respects the user's budget and preferences. The entire application state is managed using **LangGraph**, featuring persistent memory to track the conversation and context across sessions.
+Using the **Amadeus API** for flights and **Booking.com (via RapidAPI)** for hotels, the agents fetch real-time data including prices, ratings, and direct booking links. The system then consolidates these findings into a comprehensive, formatted itinerary that respects the user's budget and preferences. The entire application state is managed using **LangGraph**, featuring persistent memory to track the conversation and context.
+
+**Disclaimer:** Please note that the flight and hotel data provided by this agent are for demonstration purposes. Due to the nature of the free/test API tiers used (Amadeus Test Environment and RapidAPI), the pricing and availability are not guaranteed to be 100% accurate or real-time and will likely differ from final booking prices.
 
 ### Reason for picking up this project
-This project is designed to synthesise and demonstrate mastery of all the major advanced topics covered in the course:
+This project was selected to synthesise and demonstrate mastery of all the major advanced topics covered in the course:
 
 #### LangGraph (State, Nodes, Graph)
 The core architecture is built as a stateful graph using `StateGraph`, managing complex state transitions and data flow between multiple nodes using a custom `TypedDict` state (`TravelAgentState`).
 
 #### Tool Calling & RAG
-The agents use custom tools (`search_flight`, `search_hotel`) to perform retrieval-augmented generation by fetching live, structured data from external APIs (Amadeus & Booking.com) rather than relying on static knowledge or mock data.
+The agents use custom tools (`search_flight`, `search_hotel`) to perform retrieval-augmented generation by fetching live, structured data from external APIs (Amadeus & Booking.com) rather than relying on static knowledge.
 
 #### Persistent Memory (Module 2)
 The graph utilises a `SqliteSaver` checkpointer to provide persistent, long-term memory. This allows the agent to maintain context across multiple interactions and even resume sessions after interruptions.
@@ -40,9 +42,9 @@ I plan to execute these steps to complete my project. As per the assignment inst
 * Initialised `SqliteSaver` for persistent conversational memory.
 
 #### [DONE] Step 2: Implement Core Tools (API Integration).
-* Built `search_flight`: Integrated with **Amadeus API** to fetch real flight offers. Added logic to generate dynamic **Skyscanner booking links**.
+* Built `search_flight`: Integrated with **Amadeus API** to fetch real flight offers. Added logic to generate dynamic **Skyscanner booking links** for better usability.
 * Built `search_hotel`: Integrated with **Booking.com (via RapidAPI)** to fetch real hotel data, including prices, ratings, and deep links.
-* Implemented helper functions like `get_iata_code` to ensure accurate API queries.
+* Implemented helper functions like `get_iata_code` and `get_destination_id` to ensure accurate API queries.
 
 #### [DONE] Step 3: Create "Travel Agent" Sub-Graph.
 * Designed a dedicated sub-graph for flight research.
