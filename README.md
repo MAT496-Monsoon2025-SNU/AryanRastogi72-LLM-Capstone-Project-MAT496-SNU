@@ -66,12 +66,12 @@ I plan to execute these steps to complete my project. As per the assignment inst
 * Integrated **Booking.com (via RapidAPI)** for hotel search to get real-time pricing and details.
 * Validated that the agents now fetch and process real-world data instead of the initial mock data.
 
-#### [TODO] Step 7: Deploy & Build Web Interface.
+#### [DONE] [Step 7: Deploy & Build Web Interface.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/TravelPlannerWebAPP.py)
 * Deploy the final compiled graph as an API using `langgraph dev`.
 * Create a simple **Streamlit** web app with a chat interface that connects to the agent's API using the `langgraph_sdk`.
 
-#### [TODO] Step 8: Final Test.
-* Test the full end-to-end flow through the web interface to ensure memory, tool calling, and parallel execution work as expected with the live APIs.
+#### [TODO] [Step 8: Final Video Walkthrough.]
+* Record a comprehensive video walkthrough demonstrating the fully functional Travel Planner via the Streamlit web interface.
 
 ### Conclusion
 I have planned to achieve a fully functional, multi-agent application that directly revises all modules from the course. This plan is ambitious but provides a clear path to demonstrating a practical understanding of LangGraph, from basic state management to complex, parallel multi-agent workflows with persistent memory and human oversight. Successful completion of this project will result in a portfolio-ready application that truly showcases the power of agentic AI development.
