@@ -70,7 +70,7 @@ I plan to execute these steps to complete my project. As per the assignment inst
 * Deploy the final compiled graph as an API using `langgraph dev`.
 * Create a simple **Streamlit** web app with a chat interface that connects to the agent's API using the `langgraph_sdk`.
 
-#### [TODO] [Step 8: Final Video Walkthrough.]
+#### [DONE] [Step 8: Final Video Walkthrough.](https://drive.google.com/file/d/1lClsOZuoNLCQWE7WR8_b6LKFLl0VfP4F/view?usp=drive_link)
 * Record a comprehensive video walkthrough demonstrating the fully functional Travel Planner via the Streamlit web interface.
 
 ### Conclusion
