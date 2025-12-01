@@ -5,9 +5,9 @@
 ### Overview
 This project is an advanced conversational AI agent designed to act as a "team" of travel specialists. A user interacts with the system, providing trip details such as origin, destination, budget, dates, and the number of travellers. The system orchestrates a team of specialist agents—a **Travel Agent** (for flights) and a **Hotel Agent** (for accommodation)—to research live options in parallel.
 
-Using the **Amadeus API** for flights and **Booking.com (via RapidAPI)** for hotels, the agents fetch real-time data including prices, ratings, and direct booking links. The system then consolidates these findings into a comprehensive, formatted itinerary that respects the user's budget and preferences. The entire application state is managed using **LangGraph**, featuring persistent memory to track the conversation and context.
+Using the **Amadeus API** for flights and hotels, the agents fetch real-time data including prices, ratings, and direct booking links. The system then consolidates these findings into a comprehensive, formatted itinerary that respects the user's budget and preferences. The entire application state is managed using **LangGraph**, featuring persistent memory to track the conversation and context.
 
-**Disclaimer:** Please note that the flight and hotel data provided by this agent are for demonstration purposes. Due to the nature of the free/test API tiers used (Amadeus Test Environment and RapidAPI), the pricing and availability are not guaranteed to be 100% accurate or real-time and will likely differ from final booking prices.
+**Disclaimer:** Please note that the flight and hotel data provided by this agent are for demonstration purposes. Due to the nature of the free/test API tiers used (Amadeus Test Environment), pricing and availability are not guaranteed to be 100% accurate or real-time and may differ from final booking prices.
 
 ### Reason for picking up this project
 This project was selected to synthesise and demonstrate mastery of all the major advanced topics covered in the course:
@@ -16,7 +16,7 @@ This project was selected to synthesise and demonstrate mastery of all the major
 The core architecture is built as a stateful graph using `StateGraph`, managing complex state transitions and data flow between multiple nodes using a custom `TypedDict` state (`TravelAgentState`).
 
 #### Tool Calling & RAG
-The agents use custom tools (`search_flight`, `search_hotel`) to perform retrieval-augmented generation by fetching live, structured data from external APIs (Amadeus & Booking.com) rather than relying on static knowledge.
+The agents use custom tools (`search_flight`, `search_hotel`) to perform retrieval-augmented generation by fetching live, structured data from external APIs (Amadeus) rather than relying on static knowledge.
 
 #### Persistent Memory (Module 2)
 The graph utilises a `SqliteSaver` checkpointer to provide persistent, long-term memory. This allows the agent to maintain context across multiple interactions and even resume sessions after interruptions.
@@ -38,7 +38,7 @@ I plan to execute these steps to complete my project. As per the assignment inst
 
 #### [DONE] [Step 1: Define State & Graph with Persistent Memory.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/State_%26_Graph_With_PersistantMemory.ipynb)
 * Defined the `TravelAgentState` (`TypedDict`) to hold user inputs (`origin`, `destination`, `dates`, `budget`) and results lists.
-* Implemented custom reducers (`replace_value` and `operator.add`) to safely manage state updates from parallel branches.
+* Implemented custom reducers (`replace_value` and `operator.add`) to manage state updates from parallel branches safely.
 * Initialised `SqliteSaver` for persistent conversational memory.
 * **Note:** At this stage, the graph was tested using **mock data** to ensure state persistence worked before integrating real APIs.
 
@@ -60,10 +60,10 @@ I plan to execute these steps to complete my project. As per the assignment inst
 * Implemented the "Map-Reduce" logic to dispatch tasks to both sub-graphs in parallel and aggregate the results.
 * **Verified Logic:** Successfully tested the entire multi-agent flow using **hardcoded values** to ensure the parallel execution and state aggregation worked correctly before moving to production data.
 
-#### [DONE] [Step 6: Integrate Real APIs (Amadeus & Booking.com).](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/API_Implementations.ipynb)
+#### [DONE] [Step 6: Integrate Real APIs (Amadeus).](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/API_Implementations.ipynb)
 * **Upgraded Tools:** Replaced the mock/hardcoded tools from Steps 2-5 with live API integrations.
 * Integrated **Amadeus API** for flight search, including dynamic Skyscanner link generation.
-* Integrated **Booking.com (via RapidAPI)** for hotel search to get real-time pricing and details.
+* Integrated **Amadeus API** for hotel search to get real-time pricing and details.
 * Validated that the agents now fetch and process real-world data instead of the initial mock data.
 
 #### [DONE] [Step 7: Deploy & Build Web Interface.](https://github.com/MAT496-Monsoon2025-SNU/AryanRastogi72-LLM-Capstone-Project-MAT496-SNU/blob/main/TravelPlannerWebAPP.py)
